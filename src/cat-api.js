@@ -23,6 +23,7 @@ function fetchBreeds(BASE_URL) {
         messageColor: '#000080',
         backgroundColor: '#FF0000',
         messageSize: 'large',
+        position: 'topLeft',
         title: 'Error',
         message: 'Oops! Something went wrong! Try reloading the page!',
       });

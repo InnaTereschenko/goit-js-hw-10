@@ -16,7 +16,7 @@ const refs = {
 };
 console.log(API);
 
-// очистити селект
+
 // підключити бібл селекту
 
 new SlimSelect({
@@ -72,6 +72,7 @@ function onFetchError() {
     messageColor: '#000080',
     backgroundColor: '#FF0000',
     messageSize: 'large',
+    position: 'topLeft',
     title: 'Error',
     message: 'Oops! Something went wrong! Try reloading the page!',
   });
@@ -87,6 +88,7 @@ function showLoader() {
     messageSize: 'large',
     timeout: 900,
     position: 'topLeft',
+    pauseOnHover: true,
     title: 'Caution',
     message: 'Loading data, please wait...',
   });
