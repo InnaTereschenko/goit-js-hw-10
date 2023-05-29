@@ -1,9 +1,10 @@
 import './css/style.css';
 import API from './cat-api';
 import SlimSelect from 'slim-select';
+import '/node_modules/slim-select/dist/slimselect.css'
 
 // import { fetchBreeds, fetchCatByBreed } from './cat-api.js';
-
+// slim-select/dist/slimselect.css
 const refs = {
   breedSelect: document.querySelector('.breed-select'),
   loader: document.querySelector('.loader'),
@@ -19,12 +20,11 @@ console.log(API);
 
 // підключити бібл селекту
 
-new SlimSelect({
-  select: 'refs.breedSelect'
-});
+
 
 
 API.fetchBreeds().then(breeds => {
+
   breeds.forEach(breed => {
     const option = document.createElement('option');
     option.value = breed.id;
@@ -32,6 +32,9 @@ API.fetchBreeds().then(breeds => {
     refs.breedSelect.appendChild(option);
    
   });
+  new SlimSelect({
+  select: '#single'
+});
 });
 
 refs.breedSelect.addEventListener('change', onChange);
