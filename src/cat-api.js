@@ -12,24 +12,7 @@ function fetchBreeds(BASE_URL) {
       //   console.log(response);
       return response.json();
     })
-    .then(data =>
-      data.map(breed => ({
-        id: breed.id,
-        name: breed.name,
-      }))
-    )
-    .catch(error => {
-      iziToast.error({
-        messageColor: '#000080',
-        backgroundColor: '#FF0000',
-        messageSize: 'large',
-        position: 'topLeft',
-        title: 'Error',
-        message: 'Oops! Something went wrong! Try reloading the page!',
-      });
-      console.error('Помилка при отриманні списку порід:', error);
-      throw error;
-    });
+    
 }
 
 export default { fetchBreeds, fetchCatByBreed };
@@ -41,9 +24,7 @@ function fetchCatByBreed(breedId) {
       return response.json();
       
     })
-    .then(data => {
-      return data[0];
-    });
+   
 }
 
 

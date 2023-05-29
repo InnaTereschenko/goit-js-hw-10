@@ -3,39 +3,63 @@ import API from './cat-api';
 import SlimSelect from 'slim-select';
 import '/node_modules/slim-select/dist/slimselect.css'
 
+
 // import { fetchBreeds, fetchCatByBreed } from './cat-api.js';
-// slim-select/dist/slimselect.css
+
 const refs = {
   breedSelect: document.querySelector('.breed-select'),
   loader: document.querySelector('.loader'),
   error: document.querySelector('.error'),
   divCatInfo: document.querySelector('.cat-info'),
+  selectWrapper: document.querySelector('.select-wrapper'),
   catImage: document.getElementById('cat-image'),
   breedName: document.getElementById('breed-name'),
   breedDescription: document.getElementById('breed-description'),
   breedTemperament: document.getElementById('breed-temperament'),
 };
-console.log(API);
+// console.log(API);
 
 
-// підключити бібл селекту
-
-
-
-
-API.fetchBreeds().then(breeds => {
-
-  breeds.forEach(breed => {
+API.fetchBreeds()
+   .then(data =>
+    data.map(breed => ({
+      id: breed.id,
+      name: breed.name,
+    }))
+    )
+  .then(breeds => {
+    showLoader();
+    breeds.forEach(breed => {
     const option = document.createElement('option');
     option.value = breed.id;
     option.textContent = breed.name;
     refs.breedSelect.appendChild(option);
+           
+    });
    
-  });
-  new SlimSelect({
-  select: '#single'
-});
-});
+     new SlimSelect({
+    select: '#single'
+     })
+    
+    hideLoader();
+    showSelectWrapper();
+  })
+  
+    .catch(error => {
+      iziToast.error({
+        messageColor: '#000080',
+        backgroundColor: '#FF0000',
+        messageSize: 'large',
+        position: 'topLeft',
+        title: 'Error',
+        message: 'Oops! Something went wrong! Try reloading the page!',
+      });
+      console.error('Помилка при отриманні списку порід:', error);
+      
+    }
+    );
+
+
 
 refs.breedSelect.addEventListener('change', onChange);
 
@@ -47,13 +71,13 @@ function onChange(evt) {
   hideCatInfo();
 
   API.fetchCatByBreed(selectBreedId)
+     .then(data => {
+      return data[0];
+    })
     .then(renderBreedCard)
     .catch(onFetchError)
-    .finally(() => {
-      refs.breedSelect.reset;
-      hideLoader();
-    });
-}
+    .finally(finallyReset);
+};
 
 function renderBreedCard(catData) {
   const { url, breeds } = catData;
@@ -68,7 +92,8 @@ function renderBreedCard(catData) {
   refs.divCatInfo.innerHTML = markup;
   refs.divCatInfo.classList.add('catCard');
   showCatInfo();
-}
+
+};
 
 function onFetchError() {
   iziToast.error({
@@ -80,11 +105,11 @@ function onFetchError() {
     message: 'Oops! Something went wrong! Try reloading the page!',
   });
   console.error('Помилка при отриманні інформації про кота:', error);
-  throw error;
-}
+  
+};
 
 function showLoader() {
-  refs.loader.style.display = 'block';
+  refs.loader.style.display = 'inline-block';
   iziToast.warning({
     messageColor: '#000080',
     backgroundColor: '	#FFD700',
@@ -95,24 +120,31 @@ function showLoader() {
     title: 'Caution',
     message: 'Loading data, please wait...',
   });
-}
+};
 
 function hideLoader() {
   refs.loader.style.display = 'none';
-}
+};
 
-function showError() {
-  refs.error.style.display = 'block';
-}
 
 function hideError() {
   refs.error.style.display = 'none';
-}
+};
 
 function showCatInfo() {
   refs.divCatInfo.style.display = 'flex';
-}
+};
 
 function hideCatInfo() {
   refs.divCatInfo.style.display = 'none';
+ 
+}
+
+function finallyReset() {
+  hideLoader()
+     refs.breedSelect.value = '';
+};
+
+function showSelectWrapper() {
+  refs.selectWrapper.style.display = 'block'
 }

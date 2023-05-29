@@ -18,15 +18,19 @@ p.error{
 
 }
 
-/* .cat-info{
+.cat-info{
     display: none;
-} */
+}
 
 .catCard{
     margin-top: 20px;
     display: flex;
     flex-direction: row;
     gap: 10px;
+}
+
+.select-wrapper{
+  display: none;
 }
 
 h2{
