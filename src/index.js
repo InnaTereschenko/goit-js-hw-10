@@ -18,7 +18,7 @@ const refs = {
   breedTemperament: document.getElementById('breed-temperament'),
 };
 // console.log(API);
-
+ showLoader();
 
 API.fetchBreeds()
    .then(data =>
@@ -28,7 +28,7 @@ API.fetchBreeds()
     }))
     )
   .then(breeds => {
-    showLoader();
+   
     breeds.forEach(breed => {
     const option = document.createElement('option');
     option.value = breed.id;
